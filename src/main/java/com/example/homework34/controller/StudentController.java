@@ -1,9 +1,11 @@
-package com.example.homework33.controller;
+package com.example.homework34.controller;
 
 
 
-import com.example.homework33.record.StudentRecord;
-import com.example.homework33.service.StudentService;
+
+import com.example.homework34.record.FacultyRecord;
+import com.example.homework34.record.StudentRecord;
+import com.example.homework34.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,9 +41,20 @@ public class StudentController {
         return studentService.delete(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(params = "age")
     public Collection<StudentRecord> findByAge(@RequestParam int age){
         return studentService.findByAge(age);
+    }
+
+    @GetMapping(params = {"minAge", "maxAge"})
+    public Collection<StudentRecord> findByAgeBetween(@RequestParam int minAge,
+                                                      @RequestParam int maxAge){
+        return studentService.findByAgeBetween(minAge, maxAge);
+    }
+
+    @GetMapping("/{id}/faculty")
+    public FacultyRecord getFacultyByStudent(@PathVariable long id){
+        return studentService.getFacultyByStudent(id);
     }
 
 }

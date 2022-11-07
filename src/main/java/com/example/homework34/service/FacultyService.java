@@ -1,16 +1,17 @@
-package com.example.homework33.service;
+package com.example.homework34.service;
 
-import com.example.homework33.component.RecordMapper;
-import com.example.homework33.exception.FacultyNotFoundException;
-import com.example.homework33.model.Faculty;
-import com.example.homework33.record.FacultyRecord;
-import com.example.homework33.repository.FacultyRepository;
+
+import com.example.homework34.component.RecordMapper;
+import com.example.homework34.controller.StudentController;
+import com.example.homework34.exception.FacultyNotFoundException;
+import com.example.homework34.entity.Faculty;
+import com.example.homework34.record.FacultyRecord;
+import com.example.homework34.record.StudentRecord;
+import com.example.homework34.repository.FacultyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-
 
 
 @Service
@@ -26,33 +27,49 @@ public class FacultyService {
         this.recordMapper = recordMapper;
     }
 
-    public FacultyRecord create(FacultyRecord facultyRecord){
+    public FacultyRecord create(FacultyRecord facultyRecord) {
         return recordMapper.toRecord(facultyRepository.save(recordMapper.toEntity(facultyRecord)));
     }
 
-    public FacultyRecord read(long id){
+    public FacultyRecord read(long id) {
         return recordMapper.toRecord(facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundException(id)));
     }
 
     public FacultyRecord update(long id,
-                                FacultyRecord facultyRecord){
+                                FacultyRecord facultyRecord) {
         Faculty oldFaculty = facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundException(id));
         oldFaculty.setColor(facultyRecord.getName());
         oldFaculty.setName(facultyRecord.getColor());
         return recordMapper.toRecord(facultyRepository.save(oldFaculty));
     }
 
-    public FacultyRecord delete(long id){
+    public FacultyRecord delete(long id) {
         Faculty faculty = facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundException(id));
         facultyRepository.delete(faculty);
         return recordMapper.toRecord(faculty);
     }
 
-    public Collection<FacultyRecord> findByColor(String color){
+    public Collection<FacultyRecord> findByColor(String color) {
         return facultyRepository.findAllByColor(color).stream()
-                .map(recordMapper: :toRecord)
+                .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
 
+    public Collection<FacultyRecord> findByColorOrName(String colorOrName) {
+        return facultyRepository.findAllByColorIgnoreCaseOrNameIgnoreCase(colorOrName, colorOrName).stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<StudentRecord> getStudentsByFaculty(long id) {
+        return facultyRepository.findById(id)
+                .map(Faculty::getStudents)
+                .map(students ->
+                        students.stream()
+                                .map(recordMapper::toRecord)
+                                .collect(Collectors.toList())
+                )
+                .orElseThrow(() -> new FacultyNotFoundException(id));
+    }
 }

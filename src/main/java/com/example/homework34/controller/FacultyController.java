@@ -1,9 +1,10 @@
-package com.example.homework33.controller;
+package com.example.homework34.controller;
 
 
-import com.example.homework33.record.FacultyRecord;
-import com.example.homework33.service.FacultyService;
-import org.springframework.validation.annotation.Validated;
+
+import com.example.homework34.record.FacultyRecord;
+import com.example.homework34.record.StudentRecord;
+import com.example.homework34.service.FacultyService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,10 +41,19 @@ public class FacultyController {
         return facultyService.delete(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(params = "colors")
     public Collection<FacultyRecord> findByColor(@RequestParam String color){
         return facultyService.findByColor(color);
     }
 
+    @GetMapping(params = "colorOrName")
+    public Collection<FacultyRecord> findByColorOrName(@RequestParam String colorOrName){
+        return facultyService.findByColorOrName(colorOrName);
+    }
+
+    @GetMapping("/{id}/students")
+    public Collection<StudentRecord> getStudentsByFaculty(@PathVariable long id){
+        return facultyService.getStudentsByFaculty(id);
+    }
 
 }

@@ -1,9 +1,12 @@
-package com.example.homework33.component;
+package com.example.homework34.component;
 
-import com.example.homework33.model.Faculty;
-import com.example.homework33.model.Student;
-import com.example.homework33.record.FacultyRecord;
-import com.example.homework33.record.StudentRecord;
+
+
+import com.example.homework34.entity.Faculty;
+import com.example.homework34.entity.Student;
+
+import com.example.homework34.record.FacultyRecord;
+import com.example.homework34.record.StudentRecord;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +17,9 @@ public class RecordMapper {
         studentRecord.setId(student.getId());
         studentRecord.setName(student.getName());
         studentRecord.setAge(student.getAge());
+        if(student.getFaculty()!=null){
+            studentRecord.setFaculty(toRecord(student.getFaculty()));
+        }
         return studentRecord;
     }
 
@@ -29,6 +35,10 @@ public class RecordMapper {
         Student student = new Student();
         student.setName(studentRecord.getName());
         student.setAge(studentRecord.getAge());
+        student.setFaculty(toEntity(studentRecord.getFaculty()));
+        if(studentRecord.getFaculty()!=null){
+            student.setFaculty(toEntity(studentRecord.getFaculty()));
+        }
         return student;
     }
 

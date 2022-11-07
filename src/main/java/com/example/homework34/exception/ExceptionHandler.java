@@ -1,4 +1,4 @@
-package com.example.homework33.exception;
+package com.example.homework34.exception;
 
 
 import org.springframework.http.HttpStatus;

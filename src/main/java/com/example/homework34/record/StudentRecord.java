@@ -1,4 +1,4 @@
-package com.example.homework33.record;
+package com.example.homework34.record;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -14,6 +14,8 @@ public class StudentRecord {
     @Min(value = 17,message = "минимальный возраст студента 17 лет!")
     @Max(value = 25,message = "максимальный возраст студента 25 лет!")
     private int age;
+
+    private FacultyRecord faculty;
 
     public StudentRecord() {
     }
@@ -46,6 +48,14 @@ public class StudentRecord {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public FacultyRecord getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(FacultyRecord faculty) {
+        this.faculty = faculty;
     }
 }
 

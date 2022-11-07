@@ -1,4 +1,4 @@
-package com.example.homework33.model;
+package com.example.homework34.entity;
 
 import javax.persistence.*;
 
@@ -12,6 +12,9 @@ public class Student {
     private String name;
 
     private int age;
+
+    @ManyToOne
+    private Faculty faculty;
 
     public Student() {
     }
@@ -46,4 +49,11 @@ public class Student {
         this.age = age;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
 }
